@@ -6,7 +6,8 @@
     "lib": ["es2021"],
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "allowJs": true
+    "allowJs": true,
+    "target": "ES2016"
   },
   "include": ["src/**/*.ts"]
 }

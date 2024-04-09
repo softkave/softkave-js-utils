@@ -3,7 +3,7 @@ import {IdOptions} from './types';
 
 export function padIdShortName(
   shortName: string,
-  opts: Pick<IdOptions, 'shortNameLength' | 'shortNamePaddingChar'>
+  opts: Pick<IdOptions, 'shortNameLength' | 'shortNamePaddingChar'> = {}
 ) {
   const {
     shortNameLength = kSoftkaveJsUtilsConstants.resource.shortNameLength,

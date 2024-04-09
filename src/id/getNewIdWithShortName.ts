@@ -8,7 +8,7 @@ export function getNewIdWithShortName(
   opts: {id?: string} & Pick<
     IdOptions,
     'nanoidLength' | 'shortNamePaddingChar' | 'shortNameIdSeparator'
-  >
+  > = {}
 ) {
   const {
     nanoidLength = kSoftkaveJsUtilsConstants.resource.nanoidLength,
