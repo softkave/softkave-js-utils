@@ -1,16 +1,19 @@
-import {TimeoutError} from '../errors/TimeoutError';
+/** Expects that you handle `catch()` and stragling promises (cases where it
+ * times out) on your own */
+export async function awaitOrTimeout<
+  TPromise extends Promise<unknown>,
+  TResult = TPromise extends Promise<infer Value> ? Value : unknown,
+>(promise: TPromise, timeoutMs: number) {
+  return new Promise<{timedout: true} | {timedout: false; result: TResult}>(
+    resolve => {
+      const timeoutHandle = setTimeout(() => {
+        resolve({timedout: true});
+      }, timeoutMs);
 
-export async function awaitOrTimeout(
-  promise: Promise<unknown>,
-  timeoutMs: number
-) {
-  const timeoutHandle = setTimeout(() => {
-    throw new TimeoutError();
-  }, timeoutMs);
-
-  try {
-    return await promise;
-  } finally {
-    clearTimeout(timeoutHandle);
-  }
+      promise.then(result => {
+        clearTimeout(timeoutHandle);
+        resolve({timedout: false, result: result as unknown as TResult});
+      });
+    }
+  );
 }

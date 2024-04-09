@@ -1,3 +1,3 @@
+export * from './Logger';
 export * from './NoopLogger';
-export * from './types';
-export * from './utils';
+export * from './getLogger';
