@@ -15,7 +15,7 @@ export interface DisposableResource {
 export class DisposablesStore {
   protected disposablesMap = new Map<DisposableResource, DisposableResource>();
 
-  constructor(protected store: PromiseStore) {}
+  constructor(protected promises: PromiseStore) {}
 
   add = (disposable: DisposableResource | DisposableResource[]) => {
     convertToArray(disposable).forEach(next =>
@@ -31,11 +31,21 @@ export class DisposablesStore {
     return Array.from(this.disposablesMap.values());
   };
 
-  disposeAll = () => {
+  forgetDisposeAll = () => {
     this.disposablesMap.forEach(disposable => {
       if (disposable.dispose) {
-        this.store.forget(disposable.dispose());
+        this.promises.forget(disposable.dispose());
       }
     });
+  };
+
+  awaitDisposeAll = async () => {
+    const promises: Array<unknown> = [];
+    this.disposablesMap.forEach(disposable => {
+      if (disposable.dispose) {
+        promises.push(disposable.dispose());
+      }
+    });
+    await Promise.all(promises);
   };
 }

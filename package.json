@@ -1,6 +1,6 @@
 {
   "name": "softkave-js-utils",
-  "version": "0.3.1",
+  "version": "0.4.1",
   "description": "JavaScript  & Typescript utility functions, types, and classes",
   "author": {
     "email": "ywordk@gmail.com",
@@ -35,8 +35,11 @@
     "url": "https://github.com/softkave/softkave-js-utils/issues"
   },
   "homepage": "https://github.com/softkave/softkave-js-utils",
-  "main": "build/src/index.js",
-  "types": "build/src/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": "./build/src/index.js",
+    "./*": "./build/src/*"
+  },
   "files": [
     "build/src/{*.js,**/*.js}",
     "build/src/{*.js.map,**/*.js.map}",
@@ -57,8 +60,7 @@
     "show-packlist": "npm run compile && npm pack --dry-run"
   },
   "engines": {
-    "node": "13.x",
-    "npm": "10.x"
+    "node": ">=13"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
@@ -70,12 +72,11 @@
     "ts-jest": "^29.1.2",
     "typescript": "~5.2.0"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@types/lodash": "^4.14.202",
     "assert": "^2.1.0",
     "lodash": "^4.17.21",
     "nanoid": "^5.0.5",
-    "npm": "^10.5.1",
     "path-browserify": "^1.0.1",
     "type-fest": "^4.10.2"
   }

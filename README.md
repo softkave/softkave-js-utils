@@ -4,6 +4,11 @@
 
 Collection of JavaScript and Typescript utilities.
 
+## Notes
+
+- **API is still unstable, so use with care.**
+- Only currently exports as an ES module, I currently do not need a commonjs export. Should you need one, you can open an issue, an I can look into it.
+
 ## Install
 
 For `npm`
