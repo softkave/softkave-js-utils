@@ -1,3 +1,3 @@
-export * from './Logger';
-export * from './NoopLogger';
-export * from './getLogger';
+export * from './Logger.js';
+export * from './NoopLogger.js';
+export * from './getLogger.js';

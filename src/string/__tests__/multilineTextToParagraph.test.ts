@@ -1,4 +1,5 @@
-import {multilineTextToParagraph} from '../multilineTextToParagraph';
+import {expect, test} from 'vitest';
+import {multilineTextToParagraph} from '../multilineTextToParagraph.js';
 
 test('multilineTextToParagraph', () => {
   const startText = `

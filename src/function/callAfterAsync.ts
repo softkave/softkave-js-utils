@@ -1,4 +1,4 @@
-import {AnyFn} from '../types';
+import {AnyFn} from '../types.js';
 
 /** Returns a function that calls `afterFn` with the result of, and arguments of
  * `fn`. */

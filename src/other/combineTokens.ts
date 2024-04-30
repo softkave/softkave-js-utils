@@ -1,4 +1,4 @@
-import {getRandomInt} from '../number';
+import {getRandomInt} from '../number/index.js';
 
 export interface CombinationToken {
   token: string;

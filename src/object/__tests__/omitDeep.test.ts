@@ -1,5 +1,6 @@
-import {isArray, isObject, isNumber} from 'lodash';
-import {omitDeep} from '../omitDeep';
+import {isArray, isNumber, isObject} from 'lodash';
+import {expect, test} from 'vitest';
+import {omitDeep} from '../omitDeep.js';
 
 test('omitDeep', () => {
   const data = [

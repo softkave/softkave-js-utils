@@ -23,29 +23,6 @@ For `yarn`
 yarn add softkave-js-utils
 ```
 
-## Jest Issues
-
-If you're having issues using `softkave-js-utils` with `jest` and you're using `ts-jest`, add the following to your `jest` config file (e.g `jest.config.js`). The issue is with ES module packages used by `softkave-js-utils` which needs to be transformed to `commonjs`. `jest`'s error messages will usually tell you the offending package so you can add them to `transformIgnorePatterns`.
-
-```json
-{
-  "transformIgnorePatterns": ["/node_modules/(?!(nanoid)/)"]
-}
-```
-
-If you're using Typescript, also confirm your `ts-config`'s `compileOptions`'s `rootDir` includes `node_modules`, or create a separate `ts-config` for testing that extends your project's `ts-config` and includes `node_modules` in it's `rootDir`. You don't need to add `node_modules` to `include`, it just needs to be covered in `rootDir`.
-
-```json
-{
-  "extends": "./tsconfig",
-  "compilerOptions": {
-    "rootDir": ".",
-    "allowJs": true
-  },
-  "include": ["src/**/*.ts"]
-}
-```
-
 ## Exports
 
 ### Functions

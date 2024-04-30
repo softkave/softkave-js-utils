@@ -1,6 +1,6 @@
 import {nanoid} from 'nanoid';
-import {kSoftkaveJsUtilsConstants} from '../constants';
-import {IdOptions} from './types';
+import {kSoftkaveJsUtilsConstants} from '../constants.js';
+import {IdOptions} from './types.js';
 
 // TODO: write validation schema/regex
 export function getNewIdWithShortName(

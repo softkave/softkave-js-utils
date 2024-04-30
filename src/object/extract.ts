@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 import {isFunction, pick} from 'lodash';
-import {cast} from '../other';
+import {cast} from '../other/index.js';
 
 export type ExtractFieldTransformer<
   T,

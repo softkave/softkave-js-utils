@@ -1,6 +1,6 @@
 import assert from 'assert';
 import {isArray, isObject} from 'lodash';
-import {AnyFn, AnyObject} from '../types';
+import {AnyFn, AnyObject} from '../types.js';
 
 export function omitDeep<
   T extends AnyObject | unknown[],

@@ -1,6 +1,6 @@
 import {Dictionary, isArray} from 'lodash';
-import {settlePromiseWithId} from './settlePromiseWithId';
-import {GetSettledPromise, PromiseWithId} from './types';
+import {settlePromiseWithId} from './settlePromiseWithId.js';
+import {GetSettledPromise, PromiseWithId} from './types.js';
 
 export const settlePromiseListWithId = async <T extends PromiseWithId>(
   promises: T[] | Dictionary<T>

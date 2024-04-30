@@ -1,3 +1,3 @@
-export * from './getRandomArbitrary';
-export * from './getRandomInt';
-export * from './getRandomIntInclusive';
+export * from './getRandomArbitrary.js';
+export * from './getRandomInt.js';
+export * from './getRandomIntInclusive.js';

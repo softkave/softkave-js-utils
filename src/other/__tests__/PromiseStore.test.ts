@@ -1,29 +1,22 @@
 import assert from 'assert';
-import {NoopLogger} from '../../logger';
-import {getDeferredPromise, PromiseStore} from '../../promise';
-import {expectErrorThrown} from '../../testing/expectErrorThrown';
-import {waitTimeout} from '../waitTimeout';
+import {describe, expect, test, vi} from 'vitest';
+import {NoopLogger} from '../../logger/index.js';
+import {PromiseStore, getDeferredPromise} from '../../promise/index.js';
+import {expectErrorThrown} from '../../testing/expectErrorThrown.js';
+import {waitTimeout} from '../waitTimeout.js';
 
 describe('PromiseStore', () => {
-  test.skip('forget', async () => {
-    // TODO: this test always fails in Jest because of the Promise.reject()
-    // needed to test forget(). the functionality itself works, because control
-    // flow doesn't get to assert.fail('error not caught'), but the test fails
-    // because Jest picks up the thrown error
+  test('forget', async () => {
     try {
       const store = new TestPromiseStore();
+      const dPromise01 = getDeferredPromise();
 
-      store.forget(
-        (async (): Promise<void> => {
-          await waitTimeout(1000);
-          return Promise.reject('error!');
-        })()
-      );
+      store.forget(dPromise01.promise);
+      dPromise01.reject(new Error('Reject error!'));
 
-      await waitTimeout(1);
       await store.flush();
     } catch (error) {
-      assert.fail('error not caught');
+      assert.fail('Error not caught');
     }
   });
 
@@ -32,7 +25,7 @@ describe('PromiseStore', () => {
     const dPromise01 = getDeferredPromise();
     const dPromise02 = getDeferredPromise();
     const dPromise03 = getDeferredPromise();
-    const thenFn = jest.fn();
+    const thenFn = vi.fn();
     dPromise01.promise.then(thenFn);
     dPromise02.promise.then(thenFn);
     dPromise03.promise.then(thenFn);

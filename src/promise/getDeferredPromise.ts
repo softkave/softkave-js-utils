@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {AnyFn} from '../types';
+import {AnyFn} from '../types.js';
 
 export function getDeferredPromise<T = void>() {
   let internalResolvePromise: AnyFn<[T | PromiseLike<T>]> | undefined;

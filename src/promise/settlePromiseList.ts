@@ -1,5 +1,5 @@
-import {settlePromise} from './settlePromise';
-import {SettledPromise} from './types';
+import {settlePromise} from './settlePromise.js';
+import {SettledPromise} from './types.js';
 
 export const settlePromiseList = <TPromise extends Promise<unknown>[]>(
   promises: TPromise

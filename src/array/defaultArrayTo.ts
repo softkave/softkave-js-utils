@@ -1,4 +1,4 @@
-import {toCompactArray} from './toCompactArray';
+import {toCompactArray} from './toCompactArray.js';
 
 /**
  * Returns 2nd argument if 1st argument is `null` or `undefined` or

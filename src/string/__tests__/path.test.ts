@@ -1,10 +1,11 @@
+import {describe, expect, test} from 'vitest';
 import {
   isPathEmpty,
   pathBasename,
   pathExtension,
   pathJoin,
   pathSplit,
-} from '../path';
+} from '../path.js';
 
 describe('string > path', () => {
   test('pathJoin', () => {
@@ -44,6 +45,7 @@ describe('string > path', () => {
     expect(output01).toBe(expectedP01);
   });
 
+  // TODO: pathJoin is missing implementation for filepath protocol
   test.skip('pathJoin with C://', () => {
     const inputP1 = 'C://folder01/folder02';
 
@@ -75,6 +77,7 @@ describe('string > path', () => {
     expect(output02).toEqual(expectP02);
   });
 
+  // TODO: pathSplit is missing support for filepath protocol
   test.skip('pathSplit with C://', () => {
     const input = 'C://abayomi/fimidara/yomi//softkave//';
 

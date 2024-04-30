@@ -1,5 +1,5 @@
-import {kSoftkaveJsUtilsConstants} from '../constants';
-import {IdOptions} from './types';
+import {kSoftkaveJsUtilsConstants} from '../constants.js';
+import {IdOptions} from './types.js';
 
 export function getId0(
   opts: Pick<IdOptions, 'nanoidLength' | 'shortNamePaddingChar'>

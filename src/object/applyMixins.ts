@@ -1,4 +1,4 @@
-import {cast} from '../other/cast';
+import {cast} from '../other/cast.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function applyMixins(derivedConstructors: any, baseConstructors: any[]) {

@@ -1,4 +1,4 @@
-import {AnyFn} from '../types';
+import {AnyFn} from '../types.js';
 
 /** Returns a function that calls input functions in parallel with any arguments
  * passed to it. */

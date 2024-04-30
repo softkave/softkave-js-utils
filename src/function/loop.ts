@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {AnyFn} from '../types';
+import {AnyFn} from '../types.js';
 
 export function loop<
   TOtherParams extends unknown[],

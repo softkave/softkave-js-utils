@@ -2,7 +2,7 @@ import {
   GetSettledPromise,
   InferPromiseWithIdData,
   PromiseWithId,
-} from './types';
+} from './types.js';
 
 export function settlePromiseWithId<T extends PromiseWithId>(p: T) {
   return new Promise<GetSettledPromise<T>>(resolve => {

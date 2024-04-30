@@ -1,5 +1,5 @@
-import {cast} from '../other';
-import {AnyObject} from '../types';
+import {cast} from '../other/index.js';
+import {AnyObject} from '../types.js';
 
 export function reverseMap<TRecord extends AnyObject>(inputMap: TRecord) {
   const reversedMap = cast<

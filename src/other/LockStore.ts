@@ -1,8 +1,8 @@
 import {first, noop} from 'lodash';
 import {ValueOf} from 'type-fest';
-import {getNewId} from '../id';
-import {AnyFn, OrPromise, PartialRecord} from '../types';
-import {ListenableResource} from './ListenableResource';
+import {getNewId} from '../id/index.js';
+import {AnyFn, OrPromise, PartialRecord} from '../types.js';
+import {ListenableResource} from './ListenableResource.js';
 
 const kLockQueueItemState = {
   waiting: 'waiting',

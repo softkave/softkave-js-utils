@@ -1,6 +1,6 @@
 import {compact, isArray, last} from 'lodash';
 import path from 'path-browserify';
-import {convertToArray} from '../array';
+import {convertToArray} from '../array/index.js';
 
 const kDefaultFolderSeparator = '/';
 

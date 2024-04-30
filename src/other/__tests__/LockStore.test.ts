@@ -1,6 +1,7 @@
-import {getNewId} from '../../id';
-import {LockableResource, LockStore} from '../LockStore';
-import {waitTimeout} from '../waitTimeout';
+import {describe, expect, test, vi} from 'vitest';
+import {getNewId} from '../../id/index.js';
+import {LockStore, LockableResource} from '../LockStore.js';
+import {waitTimeout} from '../waitTimeout.js';
 
 describe('LockStore', () => {
   test('run', async () => {
@@ -11,16 +12,16 @@ describe('LockStore', () => {
     let fn02Done = false;
     let fn03Done = false;
 
-    const fn01 = jest.fn().mockImplementation(async () => {
+    const fn01 = vi.fn().mockImplementation(async () => {
       await waitTimeout(0);
       fn01Done = true;
     });
-    const fn02 = jest.fn().mockImplementation(async () => {
+    const fn02 = vi.fn().mockImplementation(async () => {
       expect(fn01Done).toBeTruthy();
       await waitTimeout(0);
       fn02Done = true;
     });
-    const fn03 = jest.fn().mockImplementation(async () => {
+    const fn03 = vi.fn().mockImplementation(async () => {
       expect(fn02Done).toBeTruthy();
       await waitTimeout(0);
       fn03Done = true;
@@ -48,17 +49,17 @@ describe('LockableResource', () => {
     const store = new LockStore();
     const rLock = new LockableResource<string>(store, r00, lockName);
 
-    const fn01 = jest.fn().mockImplementation(async (data: string) => {
+    const fn01 = vi.fn().mockImplementation(async (data: string) => {
       expect(data).toBe(r00);
       await waitTimeout(0);
       return r01;
     });
-    const fn02 = jest.fn().mockImplementation(async (data: string) => {
+    const fn02 = vi.fn().mockImplementation(async (data: string) => {
       expect(data).toBe(r01);
       await waitTimeout(0);
       return r02;
     });
-    const fn03 = jest.fn().mockImplementation(async (data: string) => {
+    const fn03 = vi.fn().mockImplementation(async (data: string) => {
       expect(data).toBe(r02);
       await waitTimeout(0);
       return r03;

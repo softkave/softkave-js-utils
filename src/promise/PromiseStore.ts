@@ -1,5 +1,5 @@
-import {Logger} from '../logger';
-import {PartialRecord} from '../types';
+import {Logger} from '../logger/index.js';
+import {PartialRecord} from '../types.js';
 
 function generateId() {
   return `${Date.now()}-${Math.random()}`;
@@ -43,15 +43,21 @@ export class PromiseStore {
       return;
     }
 
-    this.promiseRecord[id] = promise;
-    promise.finally(() => {
+    if (forget) {
+      promise = this.awaitForgetPromise(promise);
+    }
+
+    this.promiseRecord[id] = promise as Promise<unknown>;
+    (promise as Promise<unknown>).finally(() => {
       delete this.promiseRecord[id];
     });
+  }
 
-    if (forget) {
-      promise.catch(error => {
-        this.logger.error(error);
-      });
+  protected async awaitForgetPromise(p: Promise<unknown>): Promise<void> {
+    try {
+      await p;
+    } catch (error) {
+      this.logger.error(error);
     }
   }
 }

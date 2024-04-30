@@ -1,6 +1,6 @@
 import {get} from 'lodash';
-import {AnyObject, OrArray} from '../types';
-import {convertToArray} from './convertToArray';
+import {AnyObject, OrArray} from '../types.js';
+import {convertToArray} from './convertToArray.js';
 
 function defaultIndexer(data: unknown, path: OrArray<keyof object>) {
   if (path) {

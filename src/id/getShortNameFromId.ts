@@ -1,5 +1,5 @@
-import {tryGetShortNameFromId} from './tryGetShortNameFromId';
-import {IdOptions} from './types';
+import {tryGetShortNameFromId} from './tryGetShortNameFromId.js';
+import {IdOptions} from './types.js';
 
 export function getShortNameFromId(
   id: string,

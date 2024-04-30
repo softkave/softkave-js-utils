@@ -1,5 +1,5 @@
 import {ValueOf} from 'type-fest';
-import {DisposableResource} from '../other/disposables';
+import {DisposableResource} from '../other/disposables.js';
 
 export interface Logger extends DisposableResource {
   log: (...args: unknown[]) => void;

@@ -1,7 +1,7 @@
 import {ReadonlyDeep} from 'type-fest';
-import {convertToArray} from '../array/convertToArray';
-import {PromiseStore} from '../promise/PromiseStore';
-import {OrPromise} from '../types';
+import {convertToArray} from '../array/convertToArray.js';
+import {PromiseStore} from '../promise/PromiseStore.js';
+import {OrPromise} from '../types.js';
 
 export interface DisposableResource {
   /** Dispose of resource in /src/endpoints/contexts/globalUtils.ts */

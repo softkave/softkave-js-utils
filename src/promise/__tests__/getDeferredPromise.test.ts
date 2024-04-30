@@ -1,4 +1,5 @@
-import {getDeferredPromise} from '../getDeferredPromise';
+import {describe, expect, test} from 'vitest';
+import {getDeferredPromise} from '../getDeferredPromise.js';
 
 describe('promiseFns', () => {
   test('getDeferredPromise, resolve', () => {

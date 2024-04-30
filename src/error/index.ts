@@ -1,1 +1,1 @@
-export * from './TimeoutError';
+export * from './TimeoutError.js';

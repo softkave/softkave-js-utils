@@ -1,5 +1,6 @@
 import {last} from 'lodash';
-import {CombinationToken, combineTokens} from '../combineTokens';
+import {describe, expect, test} from 'vitest';
+import {CombinationToken, combineTokens} from '../combineTokens.js';
 
 describe('combineTokens', () => {
   test('generates within tokens', () => {

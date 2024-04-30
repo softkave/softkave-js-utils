@@ -1,4 +1,4 @@
-import {SettledPromise} from './types';
+import {SettledPromise} from './types.js';
 
 export function settlePromise<T = unknown>(p: Promise<T>) {
   return new Promise<SettledPromise<T>>(resolve => {

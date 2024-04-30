@@ -1,6 +1,6 @@
 import assert from 'assert';
-import {AnyFn} from '../types';
-import {LoopAsyncSettlementType} from './types';
+import {AnyFn} from '../types.js';
+import {LoopAsyncSettlementType} from './types.js';
 
 /**
  * See {@link loopAndCollate}

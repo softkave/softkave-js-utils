@@ -1,5 +1,5 @@
-import {kSoftkaveJsUtilsConstants} from '../constants';
-import {IdOptions, IdShortNameMap} from './types';
+import {kSoftkaveJsUtilsConstants} from '../constants.js';
+import {IdOptions, IdShortNameMap} from './types.js';
 
 export function isIdWithShortName(
   resourceId: string,

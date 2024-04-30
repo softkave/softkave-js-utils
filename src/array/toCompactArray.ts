@@ -1,5 +1,5 @@
 import {compact} from 'lodash';
-import {convertToArray} from './convertToArray';
+import {convertToArray} from './convertToArray.js';
 
 /**
  * Returns an array without falsy values like `false`, `null`, `0`, `""`,

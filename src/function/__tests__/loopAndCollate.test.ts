@@ -1,8 +1,9 @@
-import {identityArgs} from '../identityArgs';
-import {loopAndCollate} from '../loopAndCollate';
+import {expect, test, vi} from 'vitest';
+import {identityArgs} from '../identityArgs.js';
+import {loopAndCollate} from '../loopAndCollate.js';
 
 test('loopAndCollate', () => {
-  const fn = jest.fn().mockImplementation(identityArgs);
+  const fn = vi.fn().mockImplementation(identityArgs);
   const max = 10;
   const extraArgs = [0, 1, 2];
 

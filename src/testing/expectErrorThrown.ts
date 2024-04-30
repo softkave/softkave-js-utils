@@ -1,7 +1,7 @@
 import assert from 'assert';
 import {isFunction, isUndefined, isString} from 'lodash';
-import {AnyFn} from '../types';
-import {assertErrorHasName} from './assertErrorHasName';
+import {AnyFn} from '../types.js';
+import {assertErrorHasName} from './assertErrorHasName.js';
 
 export async function expectErrorThrown(
   fn: AnyFn,
