@@ -1,8 +1,8 @@
-import {mergeWith} from 'lodash';
+import {mergeWith} from 'lodash-es';
 
 export interface MergeObjectMeta {
   /**
-   * `merge` - Lodash's default, check out Lodash's `mergeWith` for details.
+   * `merge` - lodash-es's default, check out lodash-es's `mergeWith` for details.
    * `concat` - Joins both arrays, returning a new array.
    * `replace` - Replaces the old array with the new array value.
    * `retain` - Retains the old array value.

@@ -1,4 +1,4 @@
-import {get} from 'lodash';
+import {get} from 'lodash-es';
 import {AnyObject, OrArray} from '../types.js';
 import {convertToArray} from './convertToArray.js';
 

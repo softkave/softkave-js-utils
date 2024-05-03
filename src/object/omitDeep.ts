@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {isArray, isObject} from 'lodash';
+import {isArray, isObject} from 'lodash-es';
 import {AnyFn, AnyObject} from '../types.js';
 
 export function omitDeep<
@@ -14,8 +14,8 @@ export function omitDeep<
   const result: AnyObject | undefined = isArray(data)
     ? ([] as AnyObject)
     : isObject(data)
-    ? ({} as AnyObject)
-    : undefined;
+      ? ({} as AnyObject)
+      : undefined;
   assert(result);
 
   for (const key in data) {

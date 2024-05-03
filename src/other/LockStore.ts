@@ -1,4 +1,4 @@
-import {first, noop} from 'lodash';
+import {first, noop} from 'lodash-es';
 import {ValueOf} from 'type-fest';
 import {getNewId} from '../id/index.js';
 import {AnyFn, OrPromise, PartialRecord} from '../types.js';

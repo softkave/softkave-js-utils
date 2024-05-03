@@ -1,4 +1,4 @@
-import {compact} from 'lodash';
+import {compact} from 'lodash-es';
 
 export function makeStringKey(
   parts: Array<string | number | undefined | null | boolean>,

@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {isFunction, isUndefined, isString} from 'lodash';
+import {isFunction, isString, isUndefined} from 'lodash-es';
 import {AnyFn} from '../types.js';
 import {assertErrorHasName} from './assertErrorHasName.js';
 

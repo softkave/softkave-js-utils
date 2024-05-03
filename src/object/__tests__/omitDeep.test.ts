@@ -1,4 +1,4 @@
-import {isArray, isNumber, isObject} from 'lodash';
+import {isArray, isNumber, isObject} from 'lodash-es';
 import {expect, test} from 'vitest';
 import {omitDeep} from '../omitDeep.js';
 

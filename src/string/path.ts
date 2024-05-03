@@ -1,4 +1,4 @@
-import {compact, isArray, last} from 'lodash';
+import {compact, isArray, last} from 'lodash-es';
 import path from 'path-browserify';
 import {convertToArray} from '../array/index.js';
 

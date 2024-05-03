@@ -1,4 +1,4 @@
-import {flatten} from 'lodash';
+import {flatten} from 'lodash-es';
 
 /**
  * Converts it's arguments to an array

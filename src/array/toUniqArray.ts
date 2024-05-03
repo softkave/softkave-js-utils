@@ -1,4 +1,4 @@
-import {uniq} from 'lodash';
+import {uniq} from 'lodash-es';
 import {convertToArray} from './convertToArray.js';
 
 export function toUniqArray<T>(...args: Array<T | T[]>) {

@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {isArray} from 'lodash';
+import {isArray} from 'lodash-es';
 
 export function assertErrorHasName(
   error: unknown,
