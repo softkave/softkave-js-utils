@@ -2,7 +2,7 @@ import assert from 'assert';
 import {describe, expect, test, vi} from 'vitest';
 import {NoopLogger} from '../../logger/index.js';
 import {PromiseStore, getDeferredPromise} from '../../promise/index.js';
-import {expectErrorThrown} from '../../testing/expectErrorThrown.js';
+import {expectErrorThrownAsync} from '../../testing/expectErrorThrown.js';
 import {waitTimeout} from '../waitTimeout.js';
 
 describe('PromiseStore', () => {
@@ -44,12 +44,12 @@ describe('PromiseStore', () => {
     store.expectIsEmpty();
   });
 
-  test('close', () => {
+  test('close', async () => {
     const store = new TestPromiseStore();
 
     store.close();
 
-    expectErrorThrown(() => store.forget(Promise.resolve()));
+    await expectErrorThrownAsync(() => store.forget(Promise.resolve()));
   });
 });
 

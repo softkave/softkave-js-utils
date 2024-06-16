@@ -1,7 +1,7 @@
 import assert from 'assert';
 import {describe, expect, test, vi} from 'vitest';
 import {waitTimeout} from '../../other/index.js';
-import {expectErrorThrown} from '../../testing/expectErrorThrown.js';
+import {expectErrorThrownAsync} from '../../testing/expectErrorThrown.js';
 import {identityArgs} from '../identityArgs.js';
 import {loopAndCollateAsync} from '../loopAndCollateAsync.js';
 
@@ -28,7 +28,7 @@ describe('fns', () => {
       throw new Error();
     });
 
-    await expectErrorThrown(async () => {
+    await expectErrorThrownAsync(async () => {
       await loopAndCollateAsync(fnThrows, max, 'oneByOne', ...extraArgs);
     });
 
@@ -58,7 +58,7 @@ describe('fns', () => {
       throw new Error();
     });
 
-    await expectErrorThrown(async () => {
+    await expectErrorThrownAsync(async () => {
       await loopAndCollateAsync(fnThrows, max, 'all', ...extraArgs);
     });
 

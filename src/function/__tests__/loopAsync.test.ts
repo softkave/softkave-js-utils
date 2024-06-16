@@ -1,6 +1,6 @@
 import {describe, expect, test, vi} from 'vitest';
 import {waitTimeout} from '../../other/index.js';
-import {expectErrorThrown} from '../../testing/expectErrorThrown.js';
+import {expectErrorThrownAsync} from '../../testing/expectErrorThrown.js';
 import {loopAsync} from '../loopAsync.js';
 
 describe('fns', () => {
@@ -25,7 +25,7 @@ describe('fns', () => {
       throw new Error();
     });
 
-    await expectErrorThrown(async () => {
+    await expectErrorThrownAsync(async () => {
       await loopAsync(fnThrows, max, 'oneByOne', ...extraArgs);
     });
 
@@ -54,7 +54,7 @@ describe('fns', () => {
       throw new Error();
     });
 
-    await expectErrorThrown(async () => {
+    await expectErrorThrownAsync(async () => {
       await loopAsync(fnThrows, max, 'all', ...extraArgs);
     });
 

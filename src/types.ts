@@ -7,14 +7,14 @@ export type ConvertT1ToT2Deep<T extends AnyObject, One, Two> = {
   [Key in keyof T]: T[Key] extends One
     ? Two
     : T[Key] extends unknown[]
-    ? T[Key][0] extends One
-      ? Two
-      : T[Key][0] extends AnyObject
-      ? ConvertT1ToT2Deep<T[Key][0], One, Two>
-      : T[Key][0]
-    : T[Key] extends AnyObject
-    ? ConvertT1ToT2Deep<T[Key], One, Two>
-    : T[Key];
+      ? T[Key][0] extends One
+        ? Two
+        : T[Key][0] extends AnyObject
+          ? ConvertT1ToT2Deep<T[Key][0], One, Two>
+          : T[Key][0]
+      : T[Key] extends AnyObject
+        ? ConvertT1ToT2Deep<T[Key], One, Two>
+        : T[Key];
 };
 
 export type ConvertDateToStringDeep<T extends AnyObject> = ConvertT1ToT2Deep<
@@ -72,8 +72,8 @@ export type OmitFrom<T, TKeys extends keyof T> = Omit<T, TKeys>;
 export type IsUnion<T> = UnionToIntersection<T> extends never
   ? true
   : IsNever<Exclude<keyof UnionToIntersection<T>, keyof T>> extends true
-  ? false
-  : true;
+    ? false
+    : true;
 
 /**
  *  type IsUnion<T, U extends T = T> =
