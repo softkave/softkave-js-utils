@@ -2,6 +2,7 @@ import {describe, expect, test, vi} from 'vitest';
 import {waitTimeout} from '../../other/index.js';
 import {expectErrorThrownAsync} from '../../testing/expectErrorThrown.js';
 import {loopAsync} from '../loopAsync.js';
+import {kLoopAsyncSettlementType} from '../types.js';
 
 describe('fns', () => {
   test('loopAsync, oneByOne', async () => {
@@ -9,7 +10,7 @@ describe('fns', () => {
     const fn = vi.fn();
     const extraArgs = [0, 1, 2];
 
-    await loopAsync(fn, max, 'oneByOne', ...extraArgs);
+    await loopAsync(fn, max, kLoopAsyncSettlementType.oneByOne, ...extraArgs);
 
     expect(fn).toHaveBeenCalledTimes(max);
     Array(max)
@@ -26,7 +27,12 @@ describe('fns', () => {
     });
 
     await expectErrorThrownAsync(async () => {
-      await loopAsync(fnThrows, max, 'oneByOne', ...extraArgs);
+      await loopAsync(
+        fnThrows,
+        max,
+        kLoopAsyncSettlementType.oneByOne,
+        ...extraArgs
+      );
     });
 
     expect(fnThrows).toHaveBeenCalledTimes(1);
@@ -37,7 +43,7 @@ describe('fns', () => {
     const fn = vi.fn();
     const extraArgs = [0, 1, 2];
 
-    await loopAsync(fn, max, 'all', ...extraArgs);
+    await loopAsync(fn, max, kLoopAsyncSettlementType.all, ...extraArgs);
 
     expect(fn).toHaveBeenCalledTimes(max);
     Array(max)
@@ -55,7 +61,12 @@ describe('fns', () => {
     });
 
     await expectErrorThrownAsync(async () => {
-      await loopAsync(fnThrows, max, 'all', ...extraArgs);
+      await loopAsync(
+        fnThrows,
+        max,
+        kLoopAsyncSettlementType.all,
+        ...extraArgs
+      );
     });
 
     expect(fnThrows).toHaveBeenCalledTimes(max);
@@ -66,7 +77,7 @@ describe('fns', () => {
     const fn = vi.fn();
     const extraArgs = [0, 1, 2];
 
-    await loopAsync(fn, max, 'allSettled', ...extraArgs);
+    await loopAsync(fn, max, kLoopAsyncSettlementType.allSettled, ...extraArgs);
 
     expect(fn).toHaveBeenCalledTimes(max);
     Array(max)
@@ -84,7 +95,12 @@ describe('fns', () => {
     });
 
     // Should not throw outside of function even if `fn` throws error
-    await loopAsync(fnThrows, max, 'allSettled', ...extraArgs);
+    await loopAsync(
+      fnThrows,
+      max,
+      kLoopAsyncSettlementType.allSettled,
+      ...extraArgs
+    );
 
     expect(fnThrows).toHaveBeenCalledTimes(max);
   });

@@ -5,8 +5,8 @@ import {AnyFn, OrPromise, PartialRecord} from '../types.js';
 import {ListenableResource} from './ListenableResource.js';
 
 const kLockQueueItemState = {
-  waiting: 'waiting',
-  waitingOnResolve: 'waitingOnResolve',
+  waiting: 'w',
+  waitingOnResolve: 'wr',
 } as const;
 
 type LockQueueItemState = ValueOf<typeof kLockQueueItemState>;
@@ -124,7 +124,7 @@ export class LockableResource<T> {
   }
 }
 
-interface SingleInstanceRunnerMakeOptions<TFn extends AnyFn> {
+interface ISingleInstanceRunnerMakeOptions<TFn extends AnyFn> {
   instanceSpecifier: (...args: Parameters<TFn>) => string;
   fn: TFn;
 }
@@ -132,7 +132,7 @@ interface SingleInstanceRunnerMakeOptions<TFn extends AnyFn> {
 export class SingleInstanceRunner {
   static make<TFn extends AnyFn>(
     locks: LockStore,
-    opts: SingleInstanceRunnerMakeOptions<TFn>
+    opts: ISingleInstanceRunnerMakeOptions<TFn>
   ) {
     return async (
       ...args: Parameters<TFn>

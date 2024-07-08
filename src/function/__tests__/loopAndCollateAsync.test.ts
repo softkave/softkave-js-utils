@@ -4,6 +4,7 @@ import {waitTimeout} from '../../other/index.js';
 import {expectErrorThrownAsync} from '../../testing/expectErrorThrown.js';
 import {identityArgs} from '../identityArgs.js';
 import {loopAndCollateAsync} from '../loopAndCollateAsync.js';
+import {kLoopAsyncSettlementType} from '../types.js';
 
 describe('fns', () => {
   test('loopAndCollateAsync, oneByOne', async () => {
@@ -11,7 +12,12 @@ describe('fns', () => {
     const fn = vi.fn().mockImplementation(identityArgs);
     const extraArgs = [0, 1, 2];
 
-    const result = await loopAndCollateAsync(fn, max, 'oneByOne', ...extraArgs);
+    const result = await loopAndCollateAsync(
+      fn,
+      max,
+      kLoopAsyncSettlementType.oneByOne,
+      ...extraArgs
+    );
 
     expect(fn).toHaveBeenCalledTimes(max);
     Array(max)
@@ -29,7 +35,12 @@ describe('fns', () => {
     });
 
     await expectErrorThrownAsync(async () => {
-      await loopAndCollateAsync(fnThrows, max, 'oneByOne', ...extraArgs);
+      await loopAndCollateAsync(
+        fnThrows,
+        max,
+        kLoopAsyncSettlementType.oneByOne,
+        ...extraArgs
+      );
     });
 
     expect(fnThrows).toHaveBeenCalledTimes(1);
@@ -40,7 +51,12 @@ describe('fns', () => {
     const fn = vi.fn().mockImplementation(identityArgs);
     const extraArgs = [0, 1, 2];
 
-    const result = await loopAndCollateAsync(fn, max, 'all', ...extraArgs);
+    const result = await loopAndCollateAsync(
+      fn,
+      max,
+      kLoopAsyncSettlementType.all,
+      ...extraArgs
+    );
 
     expect(fn).toHaveBeenCalledTimes(max);
     Array(max)
@@ -59,7 +75,12 @@ describe('fns', () => {
     });
 
     await expectErrorThrownAsync(async () => {
-      await loopAndCollateAsync(fnThrows, max, 'all', ...extraArgs);
+      await loopAndCollateAsync(
+        fnThrows,
+        max,
+        kLoopAsyncSettlementType.all,
+        ...extraArgs
+      );
     });
 
     expect(fnThrows).toHaveBeenCalledTimes(max);
@@ -73,7 +94,7 @@ describe('fns', () => {
     const result = await loopAndCollateAsync(
       fn,
       max,
-      'allSettled',
+      kLoopAsyncSettlementType.allSettled,
       ...extraArgs
     );
 
@@ -99,7 +120,7 @@ describe('fns', () => {
     const resultsWithError = await loopAndCollateAsync(
       fnThrows,
       max,
-      'allSettled',
+      kLoopAsyncSettlementType.allSettled,
       ...extraArgs
     );
 

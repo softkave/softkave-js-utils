@@ -14,5 +14,6 @@ export function calculatePageSize(
   const maxFullPages = Math.floor(count / pageSize);
   const pageCount =
     page < maxFullPages ? pageSize : count - maxFullPages * pageSize;
+
   return pageCount;
 }

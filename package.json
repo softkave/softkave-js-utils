@@ -1,6 +1,6 @@
 {
   "name": "softkave-js-utils",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "JavaScript  & Typescript utility functions, types, and classes",
   "author": {
     "email": "ywordk@gmail.com",
@@ -38,6 +38,17 @@
   "type": "module",
   "exports": {
     ".": "./build/src/index.js",
+    "./array": "./build/src/array/index.js",
+    "./error": "./build/src/error/index.js",
+    "./function": "./build/src/function/index.js",
+    "./id": "./build/src/id/index.js",
+    "./logger": "./build/src/logger/index.js",
+    "./number": "./build/src/number/index.js",
+    "./object": "./build/src/object/index.js",
+    "./other": "./build/src/other/index.js",
+    "./promise": "./build/src/promise/index.js",
+    "./string": "./build/src/string/index.js",
+    "./testing": "./build/src/testing/index.js",
     "./*": "./build/src/*"
   },
   "files": [

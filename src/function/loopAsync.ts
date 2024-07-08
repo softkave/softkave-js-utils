@@ -1,6 +1,6 @@
 import assert from 'assert';
 import {AnyFn} from '../types.js';
-import {LoopAsyncSettlementType} from './types.js';
+import {LoopAsyncSettlementType, kLoopAsyncSettlementType} from './types.js';
 
 /** See {@link loop} */
 export async function loopAsync<
@@ -14,7 +14,7 @@ export async function loopAsync<
 ) {
   assert(max >= 0);
 
-  if (settlement === 'oneByOne') {
+  if (settlement === kLoopAsyncSettlementType.oneByOne) {
     for (let i = 0; i < max; i++) {
       await fn(i, ...otherParams);
     }
@@ -25,9 +25,9 @@ export async function loopAsync<
       promises.push(fn(i, ...otherParams));
     }
 
-    if (settlement === 'all') {
+    if (settlement === kLoopAsyncSettlementType.all) {
       await Promise.all(promises);
-    } else if (settlement === 'allSettled') {
+    } else if (settlement === kLoopAsyncSettlementType.allSettled) {
       await Promise.allSettled(promises);
     } else {
       throw new Error(`Unknown promise settlement type ${settlement}`);

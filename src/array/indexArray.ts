@@ -51,7 +51,11 @@ export type IndexArrayOptions<T, TItem> = {
     /** Index of current item in `arr` */
     index: number,
     /** Array provided with `indexArray()` */
-    arr: T[]
+    arr: T[],
+    /** Existing indexed item for key */
+    existingItem: TItem | undefined,
+    /** Map */
+    map: {[key: string]: TItem}
   ) => TItem;
 } & (IndexArrayOptionsWithPath<T> | IndexArrayOptionsWithIndexer<T>);
 
@@ -121,7 +125,13 @@ export function indexArray<T, TItem = T>(
   const result = array.reduce(
     (accumulator, current, index) => {
       const key = indexer(current, path, index, array);
-      accumulator[key] = reducer(current, index, array) as TItem;
+      accumulator[key] = reducer(
+        current,
+        index,
+        array,
+        accumulator[key],
+        accumulator
+      ) as TItem;
       return accumulator;
     },
     {} as {[key: string]: TItem}

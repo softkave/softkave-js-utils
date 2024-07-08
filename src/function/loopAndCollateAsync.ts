@@ -1,6 +1,6 @@
 import assert from 'assert';
 import {AnyFn} from '../types.js';
-import {LoopAsyncSettlementType} from './types.js';
+import {LoopAsyncSettlementType, kLoopAsyncSettlementType} from './types.js';
 
 /**
  * See {@link loopAndCollate}
@@ -10,7 +10,7 @@ export async function loopAndCollateAsync<
   TOtherParams extends unknown[],
   TFn extends AnyFn<[number, ...TOtherParams]>,
   TSettlementType extends LoopAsyncSettlementType,
-  TResult = TSettlementType extends 'allSettled'
+  TResult = TSettlementType extends typeof kLoopAsyncSettlementType.allSettled
     ? PromiseSettledResult<Awaited<ReturnType<TFn>>>[]
     : Awaited<ReturnType<TFn>>[],
 >(
@@ -21,7 +21,7 @@ export async function loopAndCollateAsync<
 ): Promise<TResult> {
   assert(max >= 0);
 
-  if (settlement === 'oneByOne') {
+  if (settlement === kLoopAsyncSettlementType.oneByOne) {
     const result: unknown[] = Array(max);
 
     for (let i = 0; i < max; i++) {
@@ -36,9 +36,9 @@ export async function loopAndCollateAsync<
       promises[i] = fn(i, ...otherParams);
     }
 
-    if (settlement === 'all') {
+    if (settlement === kLoopAsyncSettlementType.all) {
       return (await Promise.all(promises)) as TResult;
-    } else if (settlement === 'allSettled') {
+    } else if (settlement === kLoopAsyncSettlementType.allSettled) {
       return (await Promise.allSettled(promises)) as TResult;
     }
   }
