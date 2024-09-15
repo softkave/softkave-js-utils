@@ -109,7 +109,7 @@ export function indexArray<T, TItem = T>(
   /** Array to index */
   arr: T | T[] = [],
   opts: IndexArrayOptions<T, TItem>
-): {[key: string]: TItem} {
+): {[key: string]: TItem | undefined} {
   const array = convertToArray(arr ?? []);
   const indexer =
     (opts as IndexArrayOptionsWithIndexer<T>).indexer ?? defaultIndexer;
