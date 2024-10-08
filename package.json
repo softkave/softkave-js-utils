@@ -1,6 +1,6 @@
 {
   "name": "softkave-js-utils",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "JavaScript  & Typescript utility functions, types, and classes",
   "author": {
     "email": "ywordk@gmail.com",
@@ -90,6 +90,6 @@
     "lodash-es": "^4.17.21"
   },
   "dependencies": {
-    "js-accessor": "file:.yalc/js-accessor"
+    "js-accessor": "^1.2.0"
   }
 }
