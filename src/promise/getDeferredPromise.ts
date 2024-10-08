@@ -1,24 +1,45 @@
 import assert from 'assert';
+import {isBoolean} from 'lodash-es';
 import {AnyFn} from '../types.js';
 
 export function getDeferredPromise<T = void>() {
-  let internalResolvePromise: AnyFn<[T | PromiseLike<T>]> | undefined;
-  let internalRejectPromise: AnyFn | undefined;
+  let pResolveFn: AnyFn<[T | PromiseLike<T>]> | undefined;
+  let pRejectFn: AnyFn | undefined;
+  let isResolved: boolean | undefined;
 
   const promise = new Promise<T>((resolve, reject) => {
-    internalResolvePromise = resolve;
-    internalRejectPromise = reject;
+    pResolveFn = resolve;
+    pRejectFn = reject;
   });
 
   const resolveFn = (value: T) => {
-    assert(internalResolvePromise);
-    internalResolvePromise(value);
+    if (isBoolean(isResolved)) {
+      return;
+    }
+
+    isResolved = true;
+    assert(pResolveFn);
+    pResolveFn(value);
   };
 
   const rejectFn = (error?: unknown) => {
-    assert(internalRejectPromise);
-    internalRejectPromise(error);
+    if (isBoolean(isResolved)) {
+      return;
+    }
+
+    isResolved = false;
+    assert(pRejectFn);
+    pRejectFn(error);
   };
 
-  return {promise, resolve: resolveFn, reject: rejectFn};
+  const isDone = () => isBoolean(isResolved);
+  const isPromiseResolved = () => isResolved;
+
+  return {
+    promise,
+    isDone,
+    isPromiseResolved,
+    resolve: resolveFn,
+    reject: rejectFn,
+  };
 }

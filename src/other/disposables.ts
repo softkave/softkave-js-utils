@@ -9,7 +9,7 @@ export interface DisposableResource {
 }
 
 /** NOTE: `DisposablesStore` must never be a disposable resource (basically any
- * resource with a `close()` function) because we automatically add all
+ * resource with a `dispose()` function) because we automatically add all
  * disposable resources registered with our dep injection container into
  * `DisposablesStore`. */
 export class DisposablesStore {
@@ -46,6 +46,13 @@ export class DisposablesStore {
         promises.push(disposable.dispose());
       }
     });
+
     await Promise.all(promises);
+  };
+
+  remove = (disposable: DisposableResource | DisposableResource[]) => {
+    convertToArray(disposable).forEach(next =>
+      this.disposablesMap.delete(next)
+    );
   };
 }

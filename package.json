@@ -1,6 +1,6 @@
 {
   "name": "softkave-js-utils",
-  "version": "0.7.0",
+  "version": "0.8.1",
   "description": "JavaScript  & Typescript utility functions, types, and classes",
   "author": {
     "email": "ywordk@gmail.com",
@@ -37,37 +37,38 @@
   "homepage": "https://github.com/softkave/softkave-js-utils",
   "type": "module",
   "exports": {
-    ".": "./build/src/index.js",
-    "./array": "./build/src/array/index.js",
-    "./error": "./build/src/error/index.js",
-    "./function": "./build/src/function/index.js",
-    "./id": "./build/src/id/index.js",
-    "./logger": "./build/src/logger/index.js",
-    "./number": "./build/src/number/index.js",
-    "./object": "./build/src/object/index.js",
-    "./other": "./build/src/other/index.js",
-    "./promise": "./build/src/promise/index.js",
-    "./string": "./build/src/string/index.js",
-    "./testing": "./build/src/testing/index.js",
-    "./*": "./build/src/*"
+    ".": "./build/index.js",
+    "./array": "./build/array/index.js",
+    "./error": "./build/error/index.js",
+    "./function": "./build/function/index.js",
+    "./id": "./build/id/index.js",
+    "./logger": "./build/logger/index.js",
+    "./number": "./build/number/index.js",
+    "./object": "./build/object/index.js",
+    "./other": "./build/other/index.js",
+    "./promise": "./build/promise/index.js",
+    "./string": "./build/string/index.js",
+    "./testing": "./build/testing/index.js",
+    "./*": "./build/*"
   },
   "files": [
-    "build/src/{*.js,**/*.js}",
-    "build/src/{*.js.map,**/*.js.map}",
-    "build/src/{*.d.ts,**/*.d.ts}",
-    "!build/src/**/__tests__/**/*"
+    "build/{*.js,**/*.js}",
+    "build/{*.js.map,**/*.js.map}",
+    "build/{*.d.ts,**/*.d.ts}",
+    "!build/**/__tests__/**/*"
   ],
   "scripts": {
     "test": "vitest --config ./vitest.config.ts",
     "lint": "gts lint",
     "clean": "gts clean",
-    "compile": "tsc",
+    "compile": "npm run clean && tsc",
     "fix": "gts fix",
     "pretest": "npm run compile",
     "posttest": "npm run lint",
     "check-circular-deps": "npx dpdm --no-warning --no-tree ./src/index.ts",
     "publish-to-npm": "npm run compile && npm publish",
-    "show-packlist": "npm run compile && npm pack --dry-run"
+    "show-packlist": "npm run compile && npm pack --dry-run",
+    "publish-to-local": "npm run compile && yalc publish"
   },
   "engines": {
     "node": ">=13"
@@ -88,5 +89,7 @@
     "type-fest": "^4.10.2",
     "lodash-es": "^4.17.21"
   },
-  "dependencies": {}
+  "dependencies": {
+    "js-accessor": "file:.yalc/js-accessor"
+  }
 }
