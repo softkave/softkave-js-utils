@@ -11,7 +11,7 @@ export function isIdWithShortName(
   } = opts;
   const shortName = resourceId.slice(0, shortNameLength);
 
-  if (!shortName ?? !shortNameMap[shortName]) {
+  if (!shortName || !shortNameMap[shortName]) {
     return false;
   }
 

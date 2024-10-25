@@ -34,6 +34,14 @@ export class PromiseStore {
     return this.isClosed;
   }
 
+  callAndForget(fn: () => void | Promise<void>) {
+    try {
+      this.forget(fn());
+    } catch (error) {
+      this.logger.error(error);
+    }
+  }
+
   protected assertNotClosed() {
     if (this.isClosed) {
       throw new Error('PromiseStore is closed');

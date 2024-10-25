@@ -3,7 +3,7 @@ import {IdOptions} from './types.js';
 
 export function getShortNameFromId(
   id: string,
-  opts: Pick<IdOptions, 'shortNameLength'>
+  opts: Pick<IdOptions, 'shortNameLength'> = {}
 ) {
   const shortName = tryGetShortNameFromId(id, opts);
 

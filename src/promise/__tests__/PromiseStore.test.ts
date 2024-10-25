@@ -1,9 +1,9 @@
 import assert from 'assert';
 import {describe, expect, test, vi} from 'vitest';
 import {NoopLogger} from '../../logger/index.js';
-import {PromiseStore, getDeferredPromise} from '../../promise/index.js';
+import {waitTimeout} from '../../other/waitTimeout.js';
 import {expectErrorThrownAsync} from '../../testing/expectErrorThrown.js';
-import {waitTimeout} from '../waitTimeout.js';
+import {PromiseStore, getDeferredPromise} from '../index.js';
 
 describe('PromiseStore', () => {
   test('forget', async () => {
@@ -50,6 +50,22 @@ describe('PromiseStore', () => {
     store.close();
 
     await expectErrorThrownAsync(() => store.forget(Promise.resolve()));
+  });
+
+  test('callAndForget', async () => {
+    const store = new TestPromiseStore();
+    const fn = vi.fn();
+    store.callAndForget(() => fn());
+    expect(fn).toHaveBeenCalledTimes(1);
+  });
+
+  test('callAndForget, error caught', async () => {
+    const store = new TestPromiseStore();
+    const fn = vi.fn(() => {
+      throw new Error('Error!');
+    });
+    store.callAndForget(fn);
+    expect(fn).toHaveBeenCalledTimes(1);
   });
 });
 
