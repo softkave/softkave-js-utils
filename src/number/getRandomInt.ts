@@ -1,4 +1,11 @@
-export function getRandomInt(min: number, max: number) {
+/** Generates a random number between `min` and `max`. `min` is inclusive and
+ * `max` is exclusive */
+export function getRandomInt(
+  /** `min` is inclusive and `max` is exclusive */
+  min: number,
+  /** `max` is exclusive and `min` is inclusive */
+  max: number
+) {
   min = Math.ceil(min);
   max = Math.floor(max);
 

@@ -7,7 +7,7 @@ export function calculatePageSize(
   pageSize = Math.max(pageSize, 0);
   page = Math.max(page, 0);
 
-  if (count === 0 ?? pageSize === 0) {
+  if (count === 0 || pageSize === 0) {
     return 0;
   }
 

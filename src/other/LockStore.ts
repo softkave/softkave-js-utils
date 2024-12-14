@@ -20,7 +20,10 @@ export class LockStore {
   protected locks: PartialRecord<string, ListenableResource<LockQueueItem>[]> =
     {};
 
-  async run(name: string, fn: AnyFn) {
+  async run<TFn extends AnyFn>(
+    name: string,
+    fn: TFn
+  ): Promise<Awaited<ReturnType<TFn>>> {
     await this.acquire(name);
 
     try {

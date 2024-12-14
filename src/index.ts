@@ -9,5 +9,6 @@ export * from './object/index.js';
 export * from './other/index.js';
 export * from './promise/index.js';
 export * from './string/index.js';
+export * from './structures/index.js';
 export * from './testing/index.js';
 export * from './types.js';
