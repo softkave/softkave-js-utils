@@ -3,17 +3,17 @@ import {IsNever, UnionToIntersection} from 'type-fest';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyObject = {[k: string | number | symbol]: any};
 
-export type ConvertT1ToT2Deep<T extends AnyObject, One, Two> = {
-  [Key in keyof T]: T[Key] extends One
-    ? Two
+export type ConvertT1ToT2Deep<T extends AnyObject, T1, T2> = {
+  [Key in keyof T]: T[Key] extends T1
+    ? T2
     : T[Key] extends unknown[]
-      ? T[Key][0] extends One
-        ? Two
+      ? T[Key][0] extends T1
+        ? T2
         : T[Key][0] extends AnyObject
-          ? ConvertT1ToT2Deep<T[Key][0], One, Two>
-          : T[Key][0]
+          ? ConvertT1ToT2Deep<T[Key][0], T1, T2>
+          : T[Key]
       : T[Key] extends AnyObject
-        ? ConvertT1ToT2Deep<T[Key], One, Two>
+        ? ConvertT1ToT2Deep<T[Key], T1, T2>
         : T[Key];
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "softkave-js-utils",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "JavaScript  & Typescript utility functions, types, and classes",
   "author": {
     "email": "ywordk@gmail.com",
@@ -85,10 +85,10 @@
   },
   "peerDependencies": {
     "assert": "^2.1.0",
+    "lodash-es": "^4.17.21",
     "nanoid": "^5.0.5",
     "path-browserify": "^1.0.1",
-    "type-fest": "^4.10.2",
-    "lodash-es": "^4.17.21"
+    "type-fest": "^4.10.2"
   },
   "dependencies": {
     "js-accessor": "^1.2.0"
