@@ -1,6 +1,7 @@
 import {first, noop} from 'lodash-es';
 import {ValueOf} from 'type-fest';
 import {getNewId} from '../id/index.js';
+import {getDeferredPromise} from '../promise/getDeferredPromise.js';
 import {AnyFn, OrPromise, PartialRecord} from '../types.js';
 import {ListenableResource} from './ListenableResource.js';
 
@@ -19,6 +20,7 @@ interface LockQueueItem {
 export class LockStore {
   protected locks: PartialRecord<string, ListenableResource<LockQueueItem>[]> =
     {};
+  protected waiters: Array<{remaining: number; resolveFn: AnyFn}> = [];
 
   async run<TFn extends AnyFn>(
     name: string,
@@ -27,14 +29,31 @@ export class LockStore {
     await this.acquire(name);
 
     try {
+      console.log('run', name);
       return await fn();
     } finally {
+      console.log('release', name);
       this.release(name);
     }
   }
 
   has(name: string) {
     return !!this.getLockQueue(name, false)?.length;
+  }
+
+  wait(name: string, remaining?: number) {
+    const queueLength = this.getLockQueue(name, false)?.length ?? 0;
+    remaining = remaining ?? queueLength;
+
+    if (queueLength === 0 || remaining <= 0) {
+      console.log('resolve', {name, remaining, queueLength});
+      return Promise.resolve();
+    }
+
+    const p = getDeferredPromise();
+    const waiter = {remaining, resolveFn: p.resolve};
+    this.waiters.push(waiter);
+    return p.promise;
   }
 
   protected acquire(name: string) {
@@ -59,6 +78,18 @@ export class LockStore {
   protected release(name: string) {
     const queue = this.getLockQueue(name, true);
     queue.shift();
+    this.waiters = this.waiters.filter(w => {
+      w.remaining--;
+      const isWaitDone = w.remaining <= 0;
+
+      if (isWaitDone) {
+        console.log('resolve', name);
+        w.resolveFn();
+      }
+
+      return !isWaitDone;
+    });
+
     this.execNext(name);
   }
 

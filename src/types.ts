@@ -3,18 +3,28 @@ import {IsNever, UnionToIntersection} from 'type-fest';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyObject = {[k: string | number | symbol]: any};
 
+type ExcludeT1<T, T1, T2> = Exclude<T, T1> extends never
+  ? T2
+  : Exclude<T, T1> | T2;
+
+// TODO: this does not completely work, but it's good enough for now. see tests
+// for more details
 export type ConvertT1ToT2Deep<T extends AnyObject, T1, T2> = {
-  [Key in keyof T]: T[Key] extends T1
-    ? T2
-    : T[Key] extends unknown[]
-      ? T[Key][0] extends T1
-        ? T2
-        : T[Key][0] extends AnyObject
-          ? ConvertT1ToT2Deep<T[Key][0], T1, T2>
-          : T[Key]
-      : T[Key] extends AnyObject
-        ? ConvertT1ToT2Deep<T[Key], T1, T2>
-        : T[Key];
+  [Key in keyof T]: T1 extends T[Key]
+    ? ExcludeT1<T[Key], T1, T2>
+    : T[Key] extends T1
+      ? ExcludeT1<T[Key], T1, T2>
+      : any[] extends T[Key]
+        ? T[Key][number] extends T1
+          ?
+              | ExcludeT1<T[Key], any[], ExcludeT1<T[Key][number], T1, T2>[]>
+              | ExcludeT1<T[Key][number], T1, T2>[]
+          : AnyObject extends T[Key][number]
+            ? ConvertT1ToT2Deep<T[Key][number], T1, T2>
+            : T[Key]
+        : T[Key] extends AnyObject
+          ? ConvertT1ToT2Deep<T[Key], T1, T2>
+          : T[Key];
 };
 
 export type ConvertDateToStringDeep<T extends AnyObject> = ConvertT1ToT2Deep<
