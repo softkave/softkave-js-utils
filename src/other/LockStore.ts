@@ -108,6 +108,10 @@ export class LockStore implements DisposableResource {
       const isWaitDone = w.remaining <= 0;
 
       if (isWaitDone) {
+        if (w.timeoutId) {
+          clearTimeout(w.timeoutId as unknown as number);
+        }
+
         w.resolveFn();
       }
 
