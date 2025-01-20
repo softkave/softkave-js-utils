@@ -4,7 +4,7 @@ import {getNewId} from '../id/index.js';
 import {getDeferredPromise} from '../promise/getDeferredPromise.js';
 import {AnyFn, OrPromise, PartialRecord} from '../types.js';
 import {ListenableResource} from './ListenableResource.js';
-
+import {DisposableResource} from './disposables.js';
 const kLockQueueItemState = {
   waiting: 'w',
   waitingOnResolve: 'wr',
@@ -17,10 +17,17 @@ interface LockQueueItem {
   resolveFn: AnyFn;
 }
 
-export class LockStore {
-  protected locks: PartialRecord<string, ListenableResource<LockQueueItem>[]> =
-    {};
-  protected waiters: Array<{remaining: number; resolveFn: AnyFn}> = [];
+interface ILockWaiter {
+  remaining: number;
+  resolveFn: AnyFn;
+  timeoutId?: unknown;
+}
+
+type LocksMap = PartialRecord<string, ListenableResource<LockQueueItem>[]>;
+
+export class LockStore implements DisposableResource {
+  protected locks: LocksMap = {};
+  protected waiters: Array<ILockWaiter> = [];
 
   async run<TFn extends AnyFn>(
     name: string,
@@ -29,10 +36,8 @@ export class LockStore {
     await this.acquire(name);
 
     try {
-      console.log('run', name);
       return await fn();
     } finally {
-      console.log('release', name);
       this.release(name);
     }
   }
@@ -41,19 +46,39 @@ export class LockStore {
     return !!this.getLockQueue(name, false)?.length;
   }
 
-  wait(name: string, remaining?: number) {
+  wait(params: {name: string; remaining?: number; timeoutMs?: number}) {
+    const {name, timeoutMs} = params;
     const queueLength = this.getLockQueue(name, false)?.length ?? 0;
-    remaining = remaining ?? queueLength;
+    const remaining = params.remaining ?? queueLength;
 
     if (queueLength === 0 || remaining <= 0) {
-      console.log('resolve', {name, remaining, queueLength});
       return Promise.resolve();
     }
 
     const p = getDeferredPromise();
-    const waiter = {remaining, resolveFn: p.resolve};
+    const waiter: ILockWaiter = {
+      remaining,
+      resolveFn: p.resolve,
+      timeoutId: undefined,
+    };
     this.waiters.push(waiter);
+
+    if (timeoutMs) {
+      waiter.timeoutId = setTimeout(() => {
+        p.reject(new Error('Timeout'));
+        this.waiters = this.waiters.filter(w => w !== waiter);
+      }, timeoutMs);
+    }
+
     return p.promise;
+  }
+
+  dispose() {
+    this.waiters.forEach(waiter => {
+      if (waiter.timeoutId) {
+        clearTimeout(waiter.timeoutId as unknown as number);
+      }
+    });
   }
 
   protected acquire(name: string) {
@@ -83,7 +108,6 @@ export class LockStore {
       const isWaitDone = w.remaining <= 0;
 
       if (isWaitDone) {
-        console.log('resolve', name);
         w.resolveFn();
       }
 

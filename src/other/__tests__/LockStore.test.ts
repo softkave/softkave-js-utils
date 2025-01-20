@@ -76,7 +76,7 @@ describe('LockableResource', () => {
   test('wait, remaining=0', async () => {
     const store = new LockStore();
     const lockName = 'lock' + getNewId();
-    await store.wait(lockName, 0);
+    await store.wait({name: lockName, remaining: 0});
     // calling wait() with remaining=0 should return immediately, so test will
     // timeout if that condition is not met
   });
@@ -84,7 +84,7 @@ describe('LockableResource', () => {
   test('wait, remaining=1, locks=0', async () => {
     const store = new LockStore();
     const lockName = 'lock' + getNewId();
-    await store.wait(lockName, 1);
+    await store.wait({name: lockName, remaining: 1});
     // calling wait() on a lock with 0 locks should return immediately, so test
     // will timeout if that condition is not met
   });
@@ -120,7 +120,7 @@ describe('LockableResource', () => {
         );
       }
 
-      const pWait = store.wait(lockName, remaining);
+      const pWait = store.wait({name: lockName, remaining});
       pHasCalledWait.resolve();
       pWait.then(() => {
         callOrder.push(waitCallId);
@@ -130,6 +130,17 @@ describe('LockableResource', () => {
       expect(callOrder).toEqual(expectedCallOrder);
     }
   );
+
+  test('wait, timeout', async () => {
+    const store = new LockStore();
+    const lockName = 'lock' + getNewId();
+    store.run(lockName, async () => {
+      await waitTimeout(1000);
+    });
+    await expect(() =>
+      store.wait({name: lockName, remaining: 1, timeoutMs: 100})
+    ).rejects.toThrow('Timeout');
+  });
 });
 
 class TestLockStore extends LockStore {
