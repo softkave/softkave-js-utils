@@ -1,4 +1,3 @@
-import assert from 'assert';
 import {describe, expect, test, vi} from 'vitest';
 import {NoopLogger} from '../../logger/index.js';
 import {waitTimeout} from '../../other/waitTimeout.js';
@@ -6,20 +5,6 @@ import {expectErrorThrownAsync} from '../../testing/expectErrorThrown.js';
 import {PromiseStore, getDeferredPromise} from '../index.js';
 
 describe('PromiseStore', () => {
-  test('forget', async () => {
-    try {
-      const store = new TestPromiseStore();
-      const dPromise01 = getDeferredPromise();
-
-      store.forget(dPromise01.promise);
-      dPromise01.reject(new Error('Reject error!'));
-
-      await store.flush();
-    } catch (error) {
-      assert.fail('Error not caught');
-    }
-  });
-
   test('flush', async () => {
     const store = new TestPromiseStore();
     const dPromise01 = getDeferredPromise();
@@ -30,9 +15,9 @@ describe('PromiseStore', () => {
     dPromise02.promise.then(thenFn);
     dPromise03.promise.then(thenFn);
 
-    store.forget(dPromise01.promise);
-    store.forget(dPromise02.promise);
-    store.forget(dPromise03.promise);
+    store.callAndForget(() => dPromise01.promise);
+    store.callAndForget(() => dPromise02.promise);
+    store.callAndForget(() => dPromise03.promise);
     const pFlush = store.flush();
     dPromise01.resolve();
     dPromise02.resolve();
@@ -49,7 +34,9 @@ describe('PromiseStore', () => {
 
     store.close();
 
-    await expectErrorThrownAsync(() => store.forget(Promise.resolve()));
+    await expectErrorThrownAsync(() =>
+      store.callAndForget(() => Promise.resolve())
+    );
   });
 
   test('callAndForget', async () => {
@@ -59,9 +46,19 @@ describe('PromiseStore', () => {
     expect(fn).toHaveBeenCalledTimes(1);
   });
 
-  test('callAndForget, error caught', async () => {
+  test('callAndForget, sync error caught', async () => {
     const store = new TestPromiseStore();
     const fn = vi.fn(() => {
+      throw new Error('Error!');
+    });
+    store.callAndForget(fn);
+    expect(fn).toHaveBeenCalledTimes(1);
+  });
+
+  test('callAndForget, async error caught', async () => {
+    const store = new TestPromiseStore();
+    const fn = vi.fn(async () => {
+      await waitTimeout(20);
       throw new Error('Error!');
     });
     store.callAndForget(fn);

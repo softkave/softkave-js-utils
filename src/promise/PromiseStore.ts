@@ -1,5 +1,6 @@
 import {Logger} from '../logger/index.js';
 import {PartialRecord} from '../types.js';
+import {isPromise} from './isPromiseLike.js';
 
 function generateId() {
   return `${Date.now()}-${Math.random()}`;
@@ -10,13 +11,6 @@ export class PromiseStore {
   protected isClosed = false;
 
   constructor(protected logger: Logger = console) {}
-
-  /** Add a promise, but handle it's failure if it fails and do nothing. */
-  forget(promise: unknown) {
-    const id: string = generateId();
-    this.replace(promise, id, /** forget */ true);
-    return this;
-  }
 
   /** Returns a promise resolved when all the promises at the time of calling
    * are resolved. This does not include promises stored after this call. */
@@ -34,9 +28,21 @@ export class PromiseStore {
     return this.isClosed;
   }
 
-  callAndForget(fn: () => void | Promise<void>) {
+  callAndForget(fn: () => unknown | Promise<unknown>) {
+    this.assertNotClosed();
+    const id: string = generateId();
+
     try {
-      this.forget(fn());
+      const p = fn();
+
+      if (isPromise(p)) {
+        this.promiseRecord[id] = p as Promise<unknown>;
+        p.catch(error => {
+          this.logger.error(error);
+        }).finally(() => {
+          delete this.promiseRecord[id];
+        });
+      }
     } catch (error) {
       this.logger.error(error);
     }
@@ -45,31 +51,6 @@ export class PromiseStore {
   protected assertNotClosed() {
     if (this.isClosed) {
       throw new Error('PromiseStore is closed');
-    }
-  }
-
-  protected replace(promise: unknown, id: string, forget = false) {
-    this.assertNotClosed();
-
-    if (!(promise instanceof Promise)) {
-      return;
-    }
-
-    if (forget) {
-      promise = this.awaitForgetPromise(promise);
-    }
-
-    this.promiseRecord[id] = promise as Promise<unknown>;
-    (promise as Promise<unknown>).finally(() => {
-      delete this.promiseRecord[id];
-    });
-  }
-
-  protected async awaitForgetPromise(p: Promise<unknown>): Promise<void> {
-    try {
-      await p;
-    } catch (error) {
-      this.logger.error(error);
     }
   }
 }

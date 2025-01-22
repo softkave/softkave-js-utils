@@ -29,17 +29,12 @@ export class LockStore implements DisposableResource {
   protected locks: LocksMap = {};
   protected waiters: Array<ILockWaiter> = [];
 
-  async run<TFn extends AnyFn>(
+  run<TFn extends AnyFn>(
     name: string,
     fn: TFn
   ): Promise<Awaited<ReturnType<TFn>>> {
-    await this.acquire(name);
-
-    try {
-      return await fn();
-    } finally {
-      this.release(name);
-    }
+    const item = this.queue(name);
+    return this.__run(name, item, fn);
   }
 
   has(name: string) {
@@ -81,7 +76,20 @@ export class LockStore implements DisposableResource {
     });
   }
 
-  protected acquire(name: string) {
+  protected async __run(
+    name: string,
+    item: ListenableResource<LockQueueItem>,
+    fn: AnyFn
+  ) {
+    await this.acquire(name, item);
+    try {
+      return await fn();
+    } finally {
+      this.release(name);
+    }
+  }
+
+  protected queue(name: string) {
     const queue = this.getLockQueue(name, true);
     const item = new ListenableResource<LockQueueItem>({
       state: kLockQueueItemState.waitingOnResolve,
@@ -89,6 +97,10 @@ export class LockStore implements DisposableResource {
     });
 
     queue.push(item);
+    return item;
+  }
+
+  protected acquire(name: string, item: ListenableResource<LockQueueItem>) {
     const p = new Promise<void>(resolve => {
       item.set({
         state: kLockQueueItemState.waiting,
