@@ -2,7 +2,15 @@ import assert from 'assert';
 import {isBoolean} from 'lodash-es';
 import {AnyFn} from '../types.js';
 
-export function getDeferredPromise<T = void>() {
+export interface DeferredPromise<T = void> {
+  promise: Promise<T>;
+  isDone: () => boolean;
+  isPromiseResolved: () => boolean;
+  resolve: (value: T) => void;
+  reject: (error: unknown) => void;
+}
+
+export function getDeferredPromise<T = void>(): DeferredPromise<T> {
   let pResolveFn: AnyFn<[T | PromiseLike<T>]> | undefined;
   let pRejectFn: AnyFn | undefined;
   let isResolved: boolean | undefined;
@@ -33,7 +41,7 @@ export function getDeferredPromise<T = void>() {
   };
 
   const isDone = () => isBoolean(isResolved);
-  const isPromiseResolved = () => isResolved;
+  const isPromiseResolved = () => isResolved ?? false;
 
   return {
     promise,

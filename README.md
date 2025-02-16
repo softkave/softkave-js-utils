@@ -87,6 +87,7 @@ yarn add softkave-js-utils
   - [`settlePromiseList`](./src/promise/settlePromiseList.ts)
   - [`settlePromiseListWithId`](./src/promise/settlePromiseListWithId.ts)
   - [`settlePromiseWithId`](./src/promise/settlePromiseWithId.ts)
+  - [`getConjoinedPromise`](./src/promise/getConjoinedPromise.ts)
 - `string`
   - [`capitalizeFirstLetter`](./src/string/capitalizeFirstLetter.ts)
   - [`getIgnoreCaseRegExpForString`](./src/string/getIgnoreCaseRegExpForString.ts)

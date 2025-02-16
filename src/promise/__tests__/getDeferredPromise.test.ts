@@ -1,7 +1,7 @@
 import {describe, expect, test} from 'vitest';
 import {getDeferredPromise} from '../getDeferredPromise.js';
 
-describe('promiseFns', () => {
+describe('getDeferredPromise', () => {
   test('getDeferredPromise, resolve', () => {
     const dPromise = getDeferredPromise<number>();
     const afterMakeMs = Date.now();
