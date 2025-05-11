@@ -4,6 +4,7 @@ export * from './cast.js';
 export * from './combineTokens.js';
 export * from './disposables.js';
 export * from './DisposableTimeout.js';
+export * from './indexJson.js';
 export * from './ListenableResource.js';
 export * from './LockStore.js';
 export * from './RefreshableResource.js';

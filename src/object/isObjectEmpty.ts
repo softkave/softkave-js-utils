@@ -1,3 +1,9 @@
-export function isObjectEmpty(data: Record<string | number, unknown>) {
-  return Object.keys(data).length === 0;
+export function isObjectEmpty(
+  data: Record<string | number, unknown> | unknown[]
+) {
+  for (const key in data) {
+    return false;
+  }
+
+  return true;
 }

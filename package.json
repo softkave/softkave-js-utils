@@ -1,6 +1,6 @@
 {
   "name": "softkave-js-utils",
-  "version": "0.15.0",
+  "version": "0.17.0",
   "description": "JavaScript  & Typescript utility functions, types, and classes",
   "author": {
     "email": "ywordk@gmail.com",
@@ -8,24 +8,8 @@
   },
   "license": "MIT",
   "keywords": [
-    "utils",
-    "javascript utilities",
-    "array",
-    "error",
-    "function",
-    "id",
-    "logger",
-    "number",
-    "object",
-    "promise",
-    "string",
-    "testing",
-    "disposables",
-    "listenables",
-    "lock",
-    "timeout",
-    "cast",
-    "typescript type utilities"
+    "JavaScript utilities",
+    "Typescript type utilities"
   ],
   "repository": {
     "type": "git",
@@ -37,24 +21,17 @@
   "homepage": "https://github.com/softkave/softkave-js-utils",
   "type": "module",
   "exports": {
-    ".": "./build/index.js",
-    "./array": "./build/array/index.js",
-    "./error": "./build/error/index.js",
-    "./function": "./build/function/index.js",
-    "./id": "./build/id/index.js",
-    "./logger": "./build/logger/index.js",
-    "./number": "./build/number/index.js",
-    "./object": "./build/object/index.js",
-    "./other": "./build/other/index.js",
-    "./promise": "./build/promise/index.js",
-    "./string": "./build/string/index.js",
-    "./testing": "./build/testing/index.js",
-    "./structures": "./build/structures/index.js",
-    "./*": "./build/*"
+    ".": {
+      "types": "./build/index.d.ts",
+      "import": "./build/index.js",
+      "default": "./build/index.js"
+    }
   },
   "files": [
     "build/{*.js,**/*.js}",
+    "build/{*.cjs,**/*.cjs}",
     "build/{*.js.map,**/*.js.map}",
+    "build/{*.cjs.map,**/*.cjs.map}",
     "build/{*.d.ts,**/*.d.ts}",
     "!build/**/__tests__/**/*"
   ],
@@ -66,10 +43,10 @@
     "fix": "gts fix",
     "pretest": "npm run compile",
     "posttest": "npm run lint",
-    "check-circular-deps": "npx dpdm --no-warning --no-tree ./src/index.ts",
-    "publish-to-npm": "npm run compile && npm publish",
-    "show-packlist": "npm run compile && npm pack --dry-run",
-    "publish-to-local": "npm run compile && yalc publish"
+    "check:circular-deps": "npx dpdm --no-warning --no-tree ./src/index.ts",
+    "show:packlist": "npm run compile && npm pack --dry-run",
+    "publish:npm": "npm run test -- --run && npm run compile && npm publish",
+    "publish:local": "npm run test -- --run && npm run compile && yalc publish"
   },
   "engines": {
     "node": ">=13"
@@ -80,8 +57,8 @@
     "@types/node": "22.10.2",
     "@types/path-browserify": "^1.0.2",
     "gts": "^5.3.0",
-    "typescript": "~5.2.0",
-    "vitest": "^2.1.8"
+    "typescript": "^5.2.0",
+    "vitest": "^3.0.9"
   },
   "peerDependencies": {
     "assert": "^2.1.0",
@@ -90,7 +67,5 @@
     "path-browserify": "^1.0.1",
     "type-fest": "^4.10.2"
   },
-  "dependencies": {
-    "js-accessor": "^1.2.0"
-  }
+  "dependencies": {}
 }
