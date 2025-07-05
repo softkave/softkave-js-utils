@@ -1,6 +1,6 @@
 {
   "name": "softkave-js-utils",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "JavaScript  & Typescript utility functions, types, and classes",
   "author": {
     "email": "ywordk@gmail.com",
@@ -36,7 +36,7 @@
     "!build/**/__tests__/**/*"
   ],
   "scripts": {
-    "test": "vitest --config ./vitest.config.ts",
+    "test": "vitest run --config ./vitest.config.ts",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "npm run clean && tsc",
