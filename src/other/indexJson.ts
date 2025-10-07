@@ -16,6 +16,13 @@ type IndexedJson = Record<
   }
 >;
 
+export type IArrayField = Set<string>;
+
+export interface IIndexJsonResult {
+  indexed: IndexedJson;
+  arrayFields: IArrayField;
+}
+
 export interface IIndexJsonOptions {
   /**
    * If true, values sub-indexed within numeric keys will be attributed also to
@@ -142,6 +149,7 @@ function indexPrimitive(
 
 function indexArray(
   indexed: IndexedJson,
+  arrayFields: IArrayField,
   keyList: Key[],
   value: unknown[],
   options: IIndexJsonOptions
